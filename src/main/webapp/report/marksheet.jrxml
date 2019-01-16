@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2f9cc88d-0a0b-42cb-b817-987a550295be">
+	<property name="template.type" value="columnar"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#000000" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="accyear" class="java.lang.String"/>
+	<parameter name="exam" class="java.lang.String"/>
+	<parameter name="roll" class="java.lang.String"/>
+	<parameter name="registrationno" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT examinfo.examtitle,
+       subjects.subname,
+       studentregistration.stroll,
+       studentinfo.stname,
+       studentregistration.regid,
+       academicyear.academicYear,
+       subjects.subcode,
+       exammark.markobtain,
+       exammark.markgrade
+FROM ((((schoolmanage.academicyear academicyear
+         INNER JOIN schoolmanage.exammark exammark
+            ON (academicyear.yearid = exammark.yearid))
+        INNER JOIN schoolmanage.studentinfo studentinfo
+           ON (studentinfo.stid = exammark.stid))
+       INNER JOIN schoolmanage.studentregistration studentregistration
+          ON (studentinfo.stid = studentregistration.stid))
+      INNER JOIN schoolmanage.examinfo examinfo
+         ON (examinfo.examid = exammark.examid))
+     INNER JOIN schoolmanage.subjects subjects
+        ON (subjects.subid = exammark.subid)
+where academicyear.academicYear = $P{accyear} and examinfo.examtitle= $P{exam}  and  studentregistration.stroll=$P{roll} and   studentregistration.regid =$P{registrationno}]]>
+	</queryString>
+	<field name="examtitle" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="stroll" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="stname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="regid" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="academicYear" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="subcode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="markobtain" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="markgrade" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="132" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" mode="Opaque" x="0" y="10" width="555" height="93" forecolor="#66FFFF" backcolor="#009999" uuid="0abec3a2-d0ec-4efe-92df-e29b1f7c67c5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="30" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ Nasir Uddin Model School & College]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" mode="Opaque" x="0" y="103" width="555" height="29" forecolor="#FFFF00" backcolor="#FF0000" uuid="13273bfa-03f1-41b4-b34a-25cd3753ac75"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Mark Sheet]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="180" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="287" y="2" width="239" height="18" uuid="309d5b54-9e11-42d8-8040-236bf318bc24"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{academicYear}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="18" width="211" height="20" forecolor="#000000" uuid="d3c47184-8755-47c3-a3ea-533862e48bfd"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Exam]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="287" y="24" width="239" height="18" uuid="33ea0643-9d88-4609-a10d-b1d3331701be"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{examtitle}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="38" width="211" height="20" forecolor="#000000" uuid="f3bedda3-587e-4964-ab4c-3f619df82981"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Roll No]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="285" y="42" width="241" height="18" uuid="f509d064-89da-432c-906b-8e96556aeb7c"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stroll}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="58" width="211" height="20" forecolor="#000000" uuid="58b5a329-0d94-4220-bea6-39356779fdfe"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Registration No]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="285" y="62" width="241" height="18" uuid="92c8d68d-9bff-43d9-a284-2ef3801ab1fc"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{regid}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="78" width="211" height="20" forecolor="#000000" uuid="bffe75cd-65ff-47a2-bcd1-642a51136e51"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Student Name]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="285" y="82" width="241" height="18" uuid="6db194ca-9116-4b52-95d2-d3196a906806"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="98" width="211" height="20" forecolor="#000000" uuid="06ce90be-178a-4d65-ac5a-5aa14d8a514c"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Sub-Coad]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="283" y="100" width="243" height="18" uuid="02b744ee-2188-494a-b1e9-457ffa9e5e8a"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subcode}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="118" width="211" height="20" forecolor="#000000" uuid="5059e83b-373a-4e8b-bf99-998e0ea098e9"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Sub-Name]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="283" y="120" width="243" height="18" uuid="f3e4deb5-2a3b-4088-870a-509821362677"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subname}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="138" width="211" height="20" forecolor="#000000" uuid="0565cef6-afd9-49f8-b2a9-0aed1ef4f8c0"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Marks]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="283" y="140" width="243" height="18" uuid="657883dd-b873-4433-b3a6-68ebdd2a2943"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{markobtain}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="158" width="211" height="20" forecolor="#000000" uuid="987eec78-28f0-4be0-a6fa-551b7fb27189"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Gread]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement style="Detail" positionType="Float" x="283" y="160" width="243" height="18" uuid="fd098c25-243d-4baa-a44e-3318c32e23d1"/>
+				<textElement>
+					<font size="14" isBold="true" pdfFontName="Times-Bold"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{markgrade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" positionType="Float" x="38" y="0" width="211" height="20" forecolor="#000000" uuid="0c2fcff7-ef8d-49e7-b5d1-5e86bb2862c2"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+					<paragraph lineSpacing="Double"/>
+				</textElement>
+				<text><![CDATA[Passing Year]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="210ced55-c449-4126-af8c-42f94c857ae0"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="2" y="0" width="555" height="13" forecolor="#D0B48E" backcolor="#9DB1B8" uuid="d67a6f1c-0053-4ca4-b549-8ab3c9dbab7b"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="503" y="0" width="40" height="13" forecolor="#FFFFFF" uuid="ae9bc431-daf3-43b1-8cce-3a482200eeb4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="423" y="0" width="80" height="13" forecolor="#FFFFFF" uuid="9a38b839-7acd-4aca-8224-9ee8e8aa9133"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="0" width="197" height="13" forecolor="#FFFFFF" uuid="e483d8e1-fabf-433c-8acf-6afe66da50b3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
